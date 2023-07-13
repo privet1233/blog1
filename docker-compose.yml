@@ -1,0 +1,38 @@
+version: '3'
+services:
+  db:
+    image: mysql
+    volumes:
+      - db_data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - "33061:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=ZdArova123
+      - MYSQL_DATABASE=blog_development
+      #- MYSQL_USER=root
+      - MYSQL_PASSWORD=ZdArova123
+    networks:
+      - mynetwork
+  app:
+    build: .
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/blog
+    environment:
+      DB_HOST: db
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    networks:
+      - mynetwork
+volumes:
+  db_data:
+
+networks:
+  mynetwork:
+   #aliases:
+  #  -db
+    

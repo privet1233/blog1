@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   
   
-  resources :articles do
+    resources :articles, param: :slug do
     resources :comments
   end
 end
